@@ -56,6 +56,15 @@ func TestSign(t *testing.T){
 	publicKeyBytes := crypto.FromECDSAPub(recoveredPubKey)
 	ok := crypto.VerifySignature(publicKeyBytes,dataHash[:],sigByte[:len(sigByte)-1])
 	fmt.Println("签名结果：",ok)
+
+	pubK := "048ea0bc55ea26af995f760edde7a07c86faa6404d8f9dc9915b8b9ea30c058f8fbe2172315265a21388185f7ce34db0ddc765401e0a310cd9a609458aa139091c"
+	k,_ := hex.DecodeString(pubK)
+	ecdsaKey,err := crypto.UnmarshalPubkey(k)
+	t.Log(err)
+	t.Log(ecdsaKey)
+	ecdsaKeyBytes := crypto.FromECDSAPub(ecdsaKey)
+	ok = crypto.VerifySignature(ecdsaKeyBytes,dataHash[:],sigByte[:len(sigByte)-1])
+	fmt.Println("签名结果：",ok)
 }
 
 func TestVerifySignature(t *testing.T) {

@@ -1,6 +1,7 @@
 package wallet
 
 import (
+	"encoding/hex"
 	"fmt"
 	hdwallet "github.com/miguelmota/go-ethereum-hdwallet"
 	"github.com/tyler-smith/go-bip39"
@@ -37,10 +38,9 @@ func CreateAccount() (*string,*string,*string,*string,error){
 
 	address := account.Address.Hex()
 	privateKey, _ := wallet.PrivateKeyHex(account)
-	publicKey, _ := wallet.PublicKeyHex(account)
 
-	//publicKeyByte, _ := wallet.PublicKeyBytes(account)
-	//publicKey := hexutil.Encode(publicKeyByte)
+	publicKeyByte, _ := wallet.PublicKeyBytes(account)
+	publicKey := hex.EncodeToString(publicKeyByte)
 	return &address,&privateKey,&mnemonic,&publicKey,nil
 }
 
@@ -60,6 +60,7 @@ func ImportAccountByMnemonic(mnemonic string,sequence uint8) (*string,*string,*s
 	}
 	address := account.Address.Hex()
 	privateKey, _ := wallet.PrivateKeyHex(account)
-	publicKey, _ := wallet.PublicKeyHex(account)
+	publicKeyByte, _ := wallet.PublicKeyBytes(account)
+	publicKey := hex.EncodeToString(publicKeyByte)
 	return &address,&privateKey,&publicKey,nil
 }
