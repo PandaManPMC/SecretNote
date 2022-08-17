@@ -6,16 +6,20 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	hdwallet "github.com/miguelmota/go-ethereum-hdwallet"
 	"github.com/tyler-smith/go-bip39"
+	"strings"
 	"testing"
 )
 
-func TestCreateWallet(t *testing.T){
+func TestCreateWallet(t *testing.T) {
 	entropy, err := bip39.NewEntropy(128)
+	//entropy, err := bip39.NewEntropy(256)
+
 	if err != nil {
 		t.Fatal(err)
 	}
 	mnemonic, _ := bip39.NewMnemonic(entropy)
 	fmt.Println("mnemonic:", mnemonic)
+	fmt.Println(len(strings.Split(mnemonic, " ")))
 	seed := bip39.NewSeed(mnemonic, "")
 
 	wallet, err := hdwallet.NewFromSeed(seed)
@@ -44,21 +48,21 @@ func TestCreateWallet(t *testing.T){
 	fmt.Println("address1:", account.Address.Hex())
 }
 
-func TestCreateAccount(t *testing.T){
-	address0,privateKey,mnemonic,publicKey,err := CreateAccount()
+func TestCreateAccount(t *testing.T) {
+	address0, privateKey, mnemonic, publicKey, err := CreateAccount()
 	if nil != err {
 		t.Fatal(err)
 	}
-	t.Logf("地址0=%s\n私钥=%s\n助记词=%s\n公钥=%s\n",*address0,*privateKey,*mnemonic,*publicKey)
+	t.Logf("地址0=%s\n私钥=%s\n助记词=%s\n公钥=%s\n", *address0, *privateKey, *mnemonic, *publicKey)
 
-	pk,err := crypto.HexToECDSA(*privateKey)
+	pk, err := crypto.HexToECDSA(*privateKey)
 	if nil != err {
 		t.Fatal(err)
 	}
 	t.Log(pk)
 
-	b,_ := hexutil.Decode(*publicKey)
-	prvK,err := crypto.DecompressPubkey(b)
+	b, _ := hexutil.Decode(*publicKey)
+	prvK, err := crypto.DecompressPubkey(b)
 	if nil != err {
 		t.Fatal(err)
 	}
@@ -72,9 +76,9 @@ func TestImportAccount(t *testing.T) {
 	//助记词=sister pyramid polar oyster describe empty unknown night ill youth arrow awkward
 	//公钥=8ea0bc55ea26af995f760edde7a07c86faa6404d8f9dc9915b8b9ea30c058f8fbe2172315265a21388185f7ce34db0ddc765401e0a310cd9a609458aa139091c
 	mnemonic := "sister pyramid polar oyster describe empty unknown night ill youth arrow awkward"
-	address,privateKey,pubkey,err := ImportAccountByMnemonic(mnemonic,0)
+	address, privateKey, pubkey, err := ImportAccountByMnemonic(mnemonic, 0)
 	if nil != err {
 		t.Fatal(err)
 	}
-	t.Logf("地址0=%s\n私钥=%s\n公钥=%s\n助记词=%s\n",*address,*privateKey,*pubkey,mnemonic)
+	t.Logf("地址0=%s\n私钥=%s\n公钥=%s\n助记词=%s\n", *address, *privateKey, *pubkey, mnemonic)
 }
