@@ -1,0 +1,7 @@
+config: dev
+user1:
+  name: a
+  pwd: 123
+user2:
+  name: b
+  pwd: 456

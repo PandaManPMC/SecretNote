@@ -90,7 +90,7 @@ func TestGetBalance(t *testing.T) {
 		//client.Client.SubscribeFilterLogs(ctx)
 
 		if nil != err {
-			t.Fatal(tutil.ErrToMap(err))
+			t.Fatal(tutil.GetInstanceByReflectUtil().ErrToMap(err))
 		}
 		t.Log(sub)
 		for {
@@ -123,7 +123,7 @@ func TestGetBalance(t *testing.T) {
 	t.Log(toVal)
 	hash, err := contract.Transfer(tops, common.HexToAddress("0x98647263f8e52F755a6ba22FC3325AEF180f1289"), toVal)
 	if nil != err {
-		t.Log(tutil.ErrToMap(err))
+		t.Log(tutil.GetInstanceByReflectUtil().ErrToMap(err))
 		t.Fatal(err)
 	}
 	t.Log(hash)

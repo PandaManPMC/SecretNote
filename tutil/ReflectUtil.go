@@ -5,7 +5,15 @@ import (
 	"reflect"
 )
 
-func ErrToMap(err error) map[string]string {
+type reflectUtil struct{}
+
+var reflectUtilInstance *reflectUtil
+
+func GetInstanceByReflectUtil() *reflectUtil {
+	return reflectUtilInstance
+}
+
+func (*reflectUtil) ErrToMap(err error) map[string]string {
 	if nil == err {
 		return nil
 	}
