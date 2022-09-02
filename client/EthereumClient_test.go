@@ -17,10 +17,16 @@ import (
 func TestGetBalance(t *testing.T) {
 	//address := "0xC166fe1c611B4d396B131F788C01d011b0187bf6"
 	//client, err := NewEthereumClient("https://rinkeby.infura.io/v3/16aa425866e742bea51efb11ccdbc900")
+
 	client, err := NewEthereumClient("wss://rinkeby.infura.io/ws/v3/16aa425866e742bea51efb11ccdbc900")
+	contractAddress := common.HexToAddress("0xd26C80A81a7a548EAeCAE649C6B174dCFfeC57DE") // rinkeby
+
 	//client, err := NewEthereumClient("https://evmtestnet.confluxrpc.com")
-	//client, err := NewEthereumClient("https://evm.confluxrpc.com")
 	//client, err := NewEthereumClient("https://evm.confluxrpc.org")
+
+	// cfx espace
+	//client, err := NewEthereumClient("https://evm.confluxrpc.com")
+	//contractAddress := common.HexToAddress("0x752D95a870C5F7aeddF084746C3E2c6974C5319f")
 
 	ctx := context.Background()
 	if nil != err {
@@ -44,8 +50,6 @@ func TestGetBalance(t *testing.T) {
 	eth := WeiToEth(bal)
 	t.Logf("余额 %v wei\t %v eth\n", bal, eth)
 
-	//contractAddress := common.HexToAddress("0x752D95a870C5F7aeddF084746C3E2c6974C5319f")
-	contractAddress := common.HexToAddress("0xd26C80A81a7a548EAeCAE649C6B174dCFfeC57DE") // rinkeby
 	t.Log(contractAddress)
 	contract, err := NewCoin(contractAddress, client.Client)
 	if nil != err {
@@ -118,7 +122,7 @@ func TestGetBalance(t *testing.T) {
 
 	d := int64(math.Pow10(18))
 	de := big.NewInt(d)
-	val := big.NewInt(20)
+	val := big.NewInt(200)
 	toVal := de.Mul(val, de)
 	t.Log(toVal)
 	hash, err := contract.Transfer(tops, common.HexToAddress("0x98647263f8e52F755a6ba22FC3325AEF180f1289"), toVal)
@@ -139,4 +143,6 @@ func TestGetBalance(t *testing.T) {
 	t.Log(receipt)
 	t.Log(receipt.Status)
 	t.Log(receipt.Type)
+
+	t.Log("---------------------------- end -----------------------------")
 }
